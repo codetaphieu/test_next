@@ -55,7 +55,7 @@ export interface CardDef {
 }
 
 
-export interface CardInstance {
+interface CardInstance {
     instanceId: UUID;
     defId: string;
 
@@ -75,14 +75,14 @@ export interface CardInstance {
 export interface Recipe {
     id: string;
     inputs: string[];
-    outputs: string[];
+    output: string[];
     duration: number;
     deletedId: string[];
 }
 
-export interface CardStack {
+interface CardStack {
     stackId: string;
-    cards: CardInstance[];
+    stacks: CardInstance[];
     // rootCardId?: string;
 
     activeRecipe?: string;
@@ -90,38 +90,36 @@ export interface CardStack {
     // lastTick: number;
 }
 
-// interface GameState {
-//     cards: Record<string, CardInstance>;  // instanceId → CardInstance
-//     stacks: Record<string, CardStack>;     // stackId → CardStack
-//     moon: number;                          // vòng hiện tại
-//     moonTimeLeft: number;                  // millisecond còn lại
-//     coins: number;
-//     cardLimit: number;                     // số thẻ tối đa trên bàn
-//     phase: "playing" | "gameover" | "gamewin"
-// }
+interface GameState {
+    cards: Record<string, CardInstance>;  // instanceId → CardInstance
+    stacks: Record<string, CardStack>;     // stackId → CardStack
+    moon: number;                          // vòng hiện tại
+    moonTimeLeft: number;                  // millisecond còn lại
+    coins: number;
+    cardLimit: number;                     // số thẻ tối đa trên bàn
+    phase: "playing" | "gameover" | "gamewin"
+}
 
-export interface PackItem {
+interface PackItem {
     defId: string;
     chance: number;// 0-1, xác suất xuất hiện
 }
 
-export interface Pack {
+interface Pack {
     id: string;
     name: string;
-    description: string;
     cost: number;
-    numberOfItems: number; // số lượng item trong pack
+    numOfItems: number; // số lượng item trong pack
     items: PackItem[];
-    position?: { x: number; y: number };
 }
 
 type GameEventType = "enemy_attack" | "natural_disaster" | "peaceful"
 
-// interface GameEvent {
-//     type: GameEventType;
-//     description: string;
-//     payload?: {
-//         mobDefIds?: string[];  // giặc xuất hiện
-//         destroyCount?: number;  // số ruộng bị phá
-//     }
-// }
+interface GameEvent {
+    type: GameEventType;
+    description: string;
+    payload?: {
+        mobDefIds?: string[];  // giặc xuất hiện
+        destroyCount?: number;  // số ruộng bị phá
+    }
+}
