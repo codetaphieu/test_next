@@ -3,55 +3,55 @@ import type { CardDef } from "@/src/types/game";
 export const CARDS: Record<string, CardDef> = {
     //STRUCTURES
 
-    "Apple_Tree": {
+    apple_tree: {
         id: "apple_tree",
         name: "Cây táo",
         type: "Structure",
         sellValue: 0,
     },
-    "Berry_Bush": {
+    berry_bush: {
         id: "berry_bush",
         name: "bụi quả mọng",
         type: "Structure",
         sellValue: 1,
     },
 
-    "Brickyard": {
+    brickyard: {
         id: "brickyard",
         name: "Xưởng gạch",
         type: "Structure",
         sellValue: 1,
     },
 
-    "Campfire": {
+    campfire: {
         id: "campfire",
         name: "Lửa trại",
         type: "Structure",
         sellValue: 1,
     },
 
-    "Farm": {
+    farm: {
         id: "farm",
         name: "Trang trại",
         type: "Structure",
         sellValue: 5,
     },
 
-    "Garden": {
+    garden: {
         id: "garden",
         name: "Khu vườn",
         type: "Structure",
         sellValue: 5,
     },
 
-    "House": {
+    "house": {
         id: "house",
         name: "Nhà",
         type: "Structure",
         sellValue: 3,
     },
 
-    "Iron_Mine": {
+    "iron_mine": {
         id: "iron_mine",
         name: "Hầm mỏ",
         type: "Structure",
