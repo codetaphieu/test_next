@@ -55,7 +55,7 @@ export interface CardDef {
 }
 
 
-interface CardInstance {
+export interface CardInstance {
     instanceId: UUID;
     defId: string;
 
@@ -75,7 +75,7 @@ interface CardInstance {
 export interface Recipe {
     id: string;
     inputs: string[];
-    output: string[];
+    outputs: string[];
     duration: number;
     deletedId: string[];
 }
@@ -90,36 +90,38 @@ interface CardStack {
     // lastTick: number;
 }
 
-interface GameState {
-    cards: Record<string, CardInstance>;  // instanceId → CardInstance
-    stacks: Record<string, CardStack>;     // stackId → CardStack
-    moon: number;                          // vòng hiện tại
-    moonTimeLeft: number;                  // millisecond còn lại
-    coins: number;
-    cardLimit: number;                     // số thẻ tối đa trên bàn
-    phase: "playing" | "gameover" | "gamewin"
-}
+// interface GameState {
+//     cards: Record<string, CardInstance>;  // instanceId → CardInstance
+//     stacks: Record<string, CardStack>;     // stackId → CardStack
+//     moon: number;                          // vòng hiện tại
+//     moonTimeLeft: number;                  // millisecond còn lại
+//     coins: number;
+//     cardLimit: number;                     // số thẻ tối đa trên bàn
+//     phase: "playing" | "gameover" | "gamewin"
+// }
 
 interface PackItem {
     defId: string;
     chance: number;// 0-1, xác suất xuất hiện
 }
 
-interface Pack {
+export interface Pack {
     id: string;
     name: string;
+    description: string;
     cost: number;
-    numOfItems: number; // số lượng item trong pack
+    numberOfItems: number; // số lượng item trong pack
     items: PackItem[];
+    position?: { x: number; y: number };
 }
 
 type GameEventType = "enemy_attack" | "natural_disaster" | "peaceful"
 
-interface GameEvent {
-    type: GameEventType;
-    description: string;
-    payload?: {
-        mobDefIds?: string[];  // giặc xuất hiện
-        destroyCount?: number;  // số ruộng bị phá
-    }
-}
+// interface GameEvent {
+//     type: GameEventType;
+//     description: string;
+//     payload?: {
+//         mobDefIds?: string[];  // giặc xuất hiện
+//         destroyCount?: number;  // số ruộng bị phá
+//     }
+// }
