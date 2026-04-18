@@ -1,4 +1,4 @@
-import { Pack } from "@/src/types/game";
+import { Pack } from "@/types/game/index";
 export const PACKS: Record<string, Pack> = {
     humble_beginning: {
         id: "humble_beginning",

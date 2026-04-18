@@ -1,12 +1,12 @@
-import { Recipe } from "@/src/types/game";
+import { Recipe } from "@/types/game/index";
 import { CARDS } from "./cards";
 
 export function validateRecipe(recipe: Recipe) {
     if (recipe.inputs.some(input => !(input in CARDS))) {
         throw new Error('Invalid recipe inputs');
     }
-    if (!(recipe.output.every(output => output in CARDS))) {
-        recipe.output = ["thẻ thất lạc"];
+    if (!(recipe.outputs.every(output => output in CARDS))) {
+        recipe.outputs = ["thẻ thất lạc"];
         throw new Error('Invalid recipe output');
     }
     return recipe;
@@ -18,7 +18,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "axe_recipe",
         inputs: ["wood", "stone"],
-        output: ["axe"],
+        outputs: ["axe"],
         duration: 4000,
         deletedId: ["wood", "stone"],
     },
@@ -26,7 +26,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "berry_recipe",
         inputs: ["berry_bush", "villager"],
-        output: ["berry"],
+        outputs: ["berry"],
         duration: 3000,
         deletedId: [],
     },
@@ -34,7 +34,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "board_recipe",
         inputs: ["wood", "villager"],
-        output: ["board"],
+        outputs: ["board"],
         duration: 3500,
         deletedId: ["wood"],
     },
@@ -42,7 +42,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "campfire_recipe",
         inputs: ["wood", "stone"],
-        output: ["campfire"],
+        outputs: ["campfire"],
         duration: 5000,
         deletedId: ["wood", "stone"],
     },
@@ -50,7 +50,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "coin_recipe",
         inputs: ["gold_ore", "villager"],
-        output: ["coin"],
+        outputs: ["coin"],
         duration: 4000,
         deletedId: ["gold_ore"],
     },
@@ -58,7 +58,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "cook_meat_recipe",
         inputs: ["raw_meat", "campfire"],
-        output: ["cooked_meat"],
+        outputs: ["cooked_meat"],
         duration: 3000,
         deletedId: ["raw_meat"],
     },
@@ -66,7 +66,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "fish_recipe",
         inputs: ["lake", "villager"],
-        output: ["fish"],
+        outputs: ["fish"],
         duration: 3000,
         deletedId: [],
     },
@@ -74,7 +74,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "flour_recipe",
         inputs: ["wheat", "villager"],
-        output: ["flour"],
+        outputs: ["flour"],
         duration: 3500,
         deletedId: ["wheat"],
     },
@@ -82,7 +82,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "house_recipe",
         inputs: ["board", "stone"],
-        output: ["house"],
+        outputs: ["house"],
         duration: 8000,
         deletedId: ["board", "stone"],
     },
@@ -90,7 +90,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "iron_bar_recipe",
         inputs: ["iron_ore", "campfire"],
-        output: ["iron_bar"],
+        outputs: ["iron_bar"],
         duration: 5000,
         deletedId: ["iron_ore"],
     },
@@ -98,7 +98,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "knife_recipe",
         inputs: ["iron_bar", "wood"],
-        output: ["knife"],
+        outputs: ["knife"],
         duration: 4000,
         deletedId: ["iron_bar", "wood"],
     },
@@ -106,7 +106,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "pickaxe_recipe",
         inputs: ["wood", "stone"],
-        output: ["pickaxe"],
+        outputs: ["pickaxe"],
         duration: 4000,
         deletedId: ["wood", "stone"],
     },
@@ -114,7 +114,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "plank_recipe",
         inputs: ["board", "villager"],
-        output: ["plank"],
+        outputs: ["plank"],
         duration: 3000,
         deletedId: ["board"],
     },
@@ -122,7 +122,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "rope_recipe",
         inputs: ["fiber"],
-        output: ["rope"],
+        outputs: ["rope"],
         duration: 2000,
         deletedId: ["fiber"],
     },
@@ -130,7 +130,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "stick_recipe",
         inputs: ["farmer", "wood"],
-        output: ["stick"],
+        outputs: ["stick"],
         duration: 3000,
         deletedId: ["wood"],
     },
@@ -138,7 +138,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "spear_recipe",
         inputs: ["wood", "stone"],
-        output: ["spear"],
+        outputs: ["spear"],
         duration: 3500,
         deletedId: ["wood", "stone"],
     },
@@ -146,7 +146,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "sword_recipe",
         inputs: ["iron_bar", "wood"],
-        output: ["sword"],
+        outputs: ["sword"],
         duration: 5000,
         deletedId: ["iron_bar", "wood"],
     },
@@ -154,7 +154,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "tent_recipe",
         inputs: ["fabric", "wood"],
-        output: ["tent"],
+        outputs: ["tent"],
         duration: 6000,
         deletedId: ["fabric", "wood"],
     },
@@ -162,7 +162,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "thread_recipe",
         inputs: ["fiber"],
-        output: ["thread"],
+        outputs: ["thread"],
         duration: 2000,
         deletedId: ["fiber"],
     },
@@ -170,7 +170,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "tool_handle_recipe",
         inputs: ["wood"],
-        output: ["handle"],
+        outputs: ["handle"],
         duration: 2000,
         deletedId: ["wood"],
     },
@@ -178,7 +178,7 @@ export const RECIPES: Recipe[] = [
     {
         id: "wheat_recipe",
         inputs: ["farm", "villager"],
-        output: ["wheat"],
+        outputs: ["wheat"],
         duration: 4000,
         deletedId: [],
     },

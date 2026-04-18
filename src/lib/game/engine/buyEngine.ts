@@ -1,5 +1,5 @@
-import { Pack } from "@/src/types/game";
-import { gameState } from "@/src/hooks/game/gameState";
+import { Pack } from "@/types/game/index";
+import { gameState } from "@/hooks/game/gameState";
 import { randomUUID } from "crypto";
 export function buyPack(pack: Pack) {
     if (gameState.coins < pack.cost) {

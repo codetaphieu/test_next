@@ -1,6 +1,6 @@
 import { UUID } from "crypto";
 
-type CardType =
+export type CardType =
     "Structure"
     | "Villager"
     | "Resource"
@@ -29,6 +29,7 @@ export interface CardDef {
         attackSpeed?: number;
         attackChance?: number;
         attackType?: "melee" | "ranged" | "magic";
+        equip?: equipmentSlots; 
 
         // Sinh tồn & Tiêu thụ
         foodCost?: number;   // Dành cho Villager
@@ -55,13 +56,16 @@ export interface CardDef {
 }
 
 
-interface CardInstance {
+export interface CardInstance {
     instanceId: UUID;
     defId: string;
 
     position: { x: number, y: number };
     // zIndex?: number; // thẻ nào nằm trên
 
+    stats?: {
+        equip?: equipmentSlots;
+    }
     attachedToId?: string;   // ID của thẻ nằm dưới thẻ này
     childCardId?: string;    // ID của thẻ đang đè lên thẻ này (tạo thành một stack)
 
@@ -75,14 +79,14 @@ interface CardInstance {
 export interface Recipe {
     id: string;
     inputs: string[];
-    output: string[];
+    outputs: string[];
     duration: number;
     deletedId: string[];
 }
 
-interface CardStack {
+export interface CardStack {
     stackId: string;
-    stacks: CardInstance[];
+    cards: CardInstance[];
     // rootCardId?: string;
 
     activeRecipe?: string;
@@ -90,36 +94,51 @@ interface CardStack {
     // lastTick: number;
 }
 
-interface GameState {
-    cards: Record<string, CardInstance>;  // instanceId → CardInstance
-    stacks: Record<string, CardStack>;     // stackId → CardStack
-    moon: number;                          // vòng hiện tại
-    moonTimeLeft: number;                  // millisecond còn lại
-    coins: number;
-    cardLimit: number;                     // số thẻ tối đa trên bàn
-    phase: "playing" | "gameover" | "gamewin"
-}
+// interface GameState {
+//     cards: Record<string, CardInstance>;  // instanceId → CardInstance
+//     stacks: Record<string, CardStack>;     // stackId → CardStack
+//     moon: number;                          // vòng hiện tại
+//     moonTimeLeft: number;                  // millisecond còn lại
+//     coins: number;
+//     cardLimit: number;                     // số thẻ tối đa trên bàn
+//     phase: "playing" | "gameover" | "gamewin"
+// }
 
-interface PackItem {
+export interface PackItem {
     defId: string;
     chance: number;// 0-1, xác suất xuất hiện
 }
 
-interface Pack {
+export interface Pack {
     id: string;
     name: string;
+    description: string;
     cost: number;
-    numOfItems: number; // số lượng item trong pack
+    numberOfItems: number; // số lượng item trong pack
     items: PackItem[];
+    position?: { x: number; y: number };
 }
 
 type GameEventType = "enemy_attack" | "natural_disaster" | "peaceful"
 
-interface GameEvent {
-    type: GameEventType;
-    description: string;
-    payload?: {
-        mobDefIds?: string[];  // giặc xuất hiện
-        destroyCount?: number;  // số ruộng bị phá
-    }
+// interface GameEvent {
+//     type: GameEventType;
+//     description: string;
+//     payload?: {
+//         mobDefIds?: string[];  // giặc xuất hiện
+//         destroyCount?: number;  // số ruộng bị phá
+//     }
+// }
+
+export interface CombatSession {
+    id: string;
+    attackers: CardInstance[]; 
+    defenders: CardInstance[]; 
+    attackerTurn: boolean;     // True = Attacker đánh, False = Defender đánh
+}
+
+export interface equipmentSlots {
+    head: string | null;
+    body: string | null;
+    weapon: string | null;
 }
