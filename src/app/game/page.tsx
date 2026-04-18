@@ -19,6 +19,12 @@ export default function GamePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [cards, setCards] = useState(initialCards);
+  
+  // --- THÊM STATE QUẢN LÝ VÀNG TẠI ĐÂY ---
+  // Khởi tạo người chơi mới vào làng sẽ có 10 Vàng làm vốn
+  const [gold, setGold] = useState(10); 
+  // ---------------------------------------
+
   const boardRef = useRef<HTMLDivElement>(null);
   const [draggingCardId, setDraggingCardId] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -101,7 +107,13 @@ export default function GamePage() {
             Trưởng làng: <span className="text-emerald-600 font-bold">{session?.user?.name || "Người chơi ẩn danh"}</span>
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3 items-center">
+           {/* --- THÊM Ô HIỂN THỊ VÀNG TẠI ĐÂY --- */}
+           <div className="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg text-sm font-bold shadow-sm flex items-center gap-1 border border-yellow-200">
+             <span className="text-lg leading-none">🪙</span> {gold}
+           </div>
+           {/* ----------------------------------- */}
+           
            <div className="px-4 py-2 bg-amber-100 text-amber-800 rounded-lg text-sm font-bold shadow-sm">Ngày 1</div>
         </div>
       </header>

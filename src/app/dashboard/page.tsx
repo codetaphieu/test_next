@@ -2,12 +2,14 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import NewButton from "@/components/features/auth/NewButton";
+// 1. Thêm import Link từ Next.js
+import Link from "next/link"; 
 
 export default async function DashboardPage() {
-  // 1. Lấy dữ liệu session ngay trên Server để đảm bảo bảo mật
+  // Lấy dữ liệu session ngay trên Server để đảm bảo bảo mật
   const session = await getServerSession(authOptions);
 
-  // 2. Gác cổng: Nếu người dùng CHƯA đăng nhập thì đá văng về trang Login ngay lập tức
+  // Gác cổng: Nếu người dùng CHƯA đăng nhập thì đá văng về trang Login ngay lập tức
   if (!session) {
     redirect("/login");
   }
@@ -24,7 +26,7 @@ export default async function DashboardPage() {
           </span>
         </div>
 
-        {/* Hiển thị thông tin User lấy từ Session (Tên, ID, Email) */}
+        {/* Hiển thị thông tin User lấy từ Session */}
         <div className="bg-blue-50/50 border border-blue-100 p-6 rounded-lg mb-6">
           <h2 className="text-lg font-semibold text-blue-900 mb-4">
             👋 Xin chào, {session.user?.name || "Người dùng ẩn danh"}!
@@ -35,7 +37,20 @@ export default async function DashboardPage() {
           </ul>
         </div>
 
-        {/* Hiển thị Access Token để bạn kiểm tra xem Auth.js có hoạt động đúng không */}
+        {/* --- NÚT CHUYỂN SANG GAME TẠI ĐÂY --- */}
+        <div className="my-8 flex justify-center">
+          <Link 
+            href="/game"
+            className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-indigo-500/50 hover:-translate-y-1 hover:scale-105 transition-all duration-300 ease-out active:scale-95 flex items-center gap-3"
+          >
+            <span className="text-2xl group-hover:animate-bounce">🎮</span>
+            BẮT ĐẦU VÀO GAME
+            <span className="text-2xl group-hover:translate-x-1 transition-transform">🚀</span>
+          </Link>
+        </div>
+        {/* ------------------------------------- */}
+
+        {/* Hiển thị Access Token */}
         <div className="bg-gray-800 text-gray-200 p-6 rounded-lg overflow-hidden">
           <h3 className="font-semibold text-gray-100 mb-2">Access Token của bạn (Dùng để gọi API):</h3>
           <p className="font-mono text-xs break-all text-green-400">
