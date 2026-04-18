@@ -80,9 +80,9 @@ export interface Recipe {
     deletedId: string[];
 }
 
-interface CardStack {
+export interface CardStack {
     stackId: string;
-    stacks: CardInstance[];
+    cards: CardInstance[];
     // rootCardId?: string;
 
     activeRecipe?: string;
@@ -100,7 +100,7 @@ interface CardStack {
 //     phase: "playing" | "gameover" | "gamewin"
 // }
 
-interface PackItem {
+export interface PackItem {
     defId: string;
     chance: number;// 0-1, xác suất xuất hiện
 }
