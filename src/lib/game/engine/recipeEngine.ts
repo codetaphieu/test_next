@@ -1,4 +1,4 @@
-import { CardStack } from "@/src/types/game";
+import { CardStack } from "@/types/game/index";
 import { RECIPES } from "../data/recipes";
 export function activeRecipe(stack: CardStack) { //active recipe cho stack, trả về recipe nếu có, null nếu không
     if (stack.cards.length < 2) return;

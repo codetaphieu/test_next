@@ -1,4 +1,4 @@
-import type { CardDef } from "@/src/types/game";
+import type { CardDef } from "@/types/game/index";
 
 export const CARDS: Record<string, CardDef> = {
     //STRUCTURES

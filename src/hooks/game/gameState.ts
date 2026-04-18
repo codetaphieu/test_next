@@ -1,4 +1,4 @@
-import { CardInstance } from "@/src/types/game"
+import { CardInstance } from "@/types/game/index"
 type GameState = {
     coins: number,
     cards: CardInstance[],

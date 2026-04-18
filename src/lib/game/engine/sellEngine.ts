@@ -1,5 +1,5 @@
-import { gameState } from "@/src/hooks/game/gameState";
-import { CardInstance } from "@/src/types/game";
+import { gameState } from "@/hooks/game/gameState";
+import { CardInstance } from "@/types/game/index";
 import { CARDS } from "../data/cards";
 
 export function sell(card: CardInstance) {
