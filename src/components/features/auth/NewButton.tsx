@@ -10,17 +10,20 @@ export default function UserApiCaller() {
     const [error, setError] = useState<string | null>(null);
 
     const callApi = async () => {
+        // 1. Chưa đăng nhập -> Đá về trang login
         if (!session) {
             signOut({ callbackUrl: "/login" });
             return;
         }
 
+        // 2. Refresh Token hết hạn (NextAuth đã thử refresh nhưng thất bại)
         if ((session as any).error === "RefreshAccessTokenError") {
             setError("Phiên đăng nhập đã hết hạn. Đang chuyển hướng...");
             setTimeout(() => signOut({ callbackUrl: "/login" }), 2000);
             return;
         }
-        console.log("session error:", session.error);
+        
+        // 3. Session hợp lệ → Gọi Proxy (NextAuth sẽ tự lo phần Access Token)
         setLoading(true);
         setError(null);
         setResult(null);
@@ -28,16 +31,10 @@ export default function UserApiCaller() {
         try {
             const response = await fetch("/api/user-proxy", { method: "GET" });
 
-            console.log("response status:", response.status);
+            // 4. Proxy trả 401 với lỗi Refresh Token → SignOut
             if (response.status === 401) {
                 const body = await response.json();
-                console.log("response body:", body);
-                if (body.error === "RefreshAccessTokenError") {
-                    setError("Phiên đăng nhập đã hết hạn. Đang chuyển hướng...");
-                    setTimeout(() => signOut({ callbackUrl: "/login" }), 2000);
-                    return;
-                }
-                if (body.error === "Unauthorized") {
+                if (body.error === "RefreshAccessTokenError" || body.error === "Unauthorized") {
                     setError("Phiên đăng nhập đã hết hạn. Đang chuyển hướng...");
                     setTimeout(() => signOut({ callbackUrl: "/login" }), 2000);
                     return;
@@ -45,13 +42,13 @@ export default function UserApiCaller() {
                 throw new Error("Unauthorized");
             }
 
-            if (!response.ok) throw new Error("Failed to fetch data");
+            if (!response.ok) throw new Error("Failed to fetch data from NestJS");
 
             const data = await response.text();
             setResult(data);
         } catch (err) {
             console.error("Lỗi gọi API:", err);
-            setError("Không thể kết nối với máy chủ.");
+            setError("Không thể kết nối với máy chủ Backend.");
         } finally {
             setLoading(false);
         }
