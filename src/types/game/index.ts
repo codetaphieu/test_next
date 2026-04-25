@@ -1,5 +1,7 @@
 import { UUID } from "crypto";
 
+export const CARD_WIDTH = 96;
+export const CARD_HEIGHT = 128;
 export type CardType =
     "Structure"
     | "Villager"
@@ -29,7 +31,7 @@ export interface CardDef {
         attackSpeed?: number;
         attackChance?: number;
         attackType?: "melee" | "ranged" | "magic";
-        equip?: equipmentSlots; 
+        equip?: EquipmentSlots;
 
         // Sinh tồn & Tiêu thụ
         foodCost?: number;   // Dành cho Villager
@@ -50,7 +52,7 @@ export interface CardDef {
         isRaw?: boolean;      // Dành cho Food
         exploreCount?: number;// Số lần còn lại của Location
         spawnRate?: number;   // Tỷ lệ xuất hiện của Location
-        
+
     }
 
 }
@@ -62,15 +64,13 @@ export interface CardInstance {
 
     position: { x: number, y: number };
     // zIndex?: number; // thẻ nào nằm trên
-
-    stats?: {
-        equip?: equipmentSlots;
-    }
-    attachedToId?: string;   // ID của thẻ nằm dưới thẻ này
-    childCardId?: string;    // ID của thẻ đang đè lên thẻ này (tạo thành một stack)
-
     progress?: number;       // Giá trị từ 0 đến 100
-    timerStartTime?: number; // Timestamp khi bắt đầu một hành động (nấu ăn, rèn...)
+    timerStartTime?: number;
+    stats?: {
+        equip?: EquipmentSlots;
+    }
+    // attachedToId?: string;   // ID của thẻ nằm dưới thẻ này
+    // childCardId?: string;    // ID của thẻ đang đè lên thẻ này (tạo thành một stack)
 
     // durability?: number;     // Cho các công cụ như Rìu, Cuốc
     // isFrozen?: boolean;      // Ví dụ: thẻ bị khóa trong mùa đông
@@ -88,21 +88,29 @@ export interface CardStack {
     stackId: string;
     cards: CardInstance[];
     // rootCardId?: string;
-
+    position: {x: number, y: number};
+    crafting: boolean;
     activeRecipe?: string;
     progress?: number;
     // lastTick: number;
 }
 
-// interface GameState {
-//     cards: Record<string, CardInstance>;  // instanceId → CardInstance
-//     stacks: Record<string, CardStack>;     // stackId → CardStack
-//     moon: number;                          // vòng hiện tại
-//     moonTimeLeft: number;                  // millisecond còn lại
-//     coins: number;
-//     cardLimit: number;                     // số thẻ tối đa trên bàn
-//     phase: "playing" | "gameover" | "gamewin"
-// }
+export interface GameState {
+    cards: Record<string, CardInstance>;  // instanceId → CardInstance
+    stacks: Record<string, CardStack>;     // stackId → CardStack
+    moon: number;                          // vòng hiện tại
+    moonTimeLeft: number;                  // millisecond còn lại
+    coins: number;
+    cardLimit: number;                     // số thẻ tối đa trên bàn
+    phase: "playing" | "gameover" | "gamewin"
+
+    addCard: (card: CardInstance) => void;
+    // updateCardPosition: (instanceId: UUID, x: number, y: number) => void;
+    startDrag: (instanceId: UUID) => void;
+    dropCard: (x: number, y: number) => void;
+    draggingId: UUID | null;
+    setPhase: (phase: GameState["phase"]) => void;
+}
 
 export interface PackItem {
     defId: string;
@@ -132,12 +140,12 @@ type GameEventType = "enemy_attack" | "natural_disaster" | "peaceful"
 
 export interface CombatSession {
     id: string;
-    attackers: CardInstance[]; 
-    defenders: CardInstance[]; 
+    attackers: CardInstance[];
+    defenders: CardInstance[];
     attackerTurn: boolean;     // True = Attacker đánh, False = Defender đánh
 }
 
-export interface equipmentSlots {
+export interface EquipmentSlots {
     head: string | null;
     body: string | null;
     weapon: string | null;

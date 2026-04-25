@@ -3,118 +3,105 @@ import type { CardDef } from "@/types/game/index";
 export const CARDS: Record<string, CardDef> = {
     //STRUCTURES
 
-    "Apple_Tree": {
+    apple_tree: {
         id: "apple_tree",
         name: "Cây táo",
         type: "Structure",
         sellValue: 0,
     },
-    "Berry_Bush": {
+    berry_bush: {
         id: "berry_bush",
         name: "bụi quả mọng",
         type: "Structure",
         sellValue: 1,
     },
 
-    "Brickyard": {
+    brickyard: {
         id: "brickyard",
         name: "Xưởng gạch",
         type: "Structure",
         sellValue: 1,
     },
 
-    "Campfire": {
+    campfire: {
         id: "campfire",
         name: "Lửa trại",
         type: "Structure",
         sellValue: 1,
     },
 
-    "Farm": {
-        id: "farm",
+    farm: { id: "farm",
         name: "Trang trại",
         type: "Structure",
         sellValue: 5,
     },
 
-    "Garden": {
-        id: "garden",
+    garden: { id: "garden",
         name: "Khu vườn",
         type: "Structure",
         sellValue: 5,
     },
 
-    "House": {
-        id: "house",
+    house: { id: "house",
         name: "Nhà",
         type: "Structure",
         sellValue: 3,
     },
 
-    "Iron_Mine": {
-        id: "iron_mine",
+    iron_mine: { id: "iron_mine",
         name: "Hầm mỏ",
         type: "Structure",
         sellValue: 5,
     },
 
-    "Lumber_Camp": {
-        id: "lumber_camp",
+    lumber_camp: { id: "lumber_camp",
         name: "Trại cưa",
         type: "Structure",
         sellValue: 5,
     },
 
-    "Market": {
-        id: "market",
+    market: { id: "market",
         name: "Chợ",
         type: "Structure",
         sellValue: 5,
     },
 
-    "Quarry": {
-        id: "quarry",
+    quarry: { id: "quarry",
         name: "Mỏ đá",
         type: "Structure",
         sellValue: 5,
     },
 
-    "Sawmill": {
-        id: "sawmill",
+    sawmill: { id: "sawmill",
         name: "Xưởng cưa",
         type: "Structure",
         sellValue: 5,
     },
 
-    "Shed": {
-        id: "shed",
+    shed: { id: "shed",
         name: "Nhà kho nhỏ",
         type: "Structure",
         sellValue: 3,
     },
 
-    "Smelter": {
-        id: "smelter",
+    smelter: { id: "smelter",
         name: "Lò luyện kim",
         type: "Structure",
         sellValue: 5,
     },
 
-    "Stove": {
-        id: "stove",
+    stove: { id: "stove",
         name: "Bếp lò",
         type: "Structure",
         sellValue: 5,
     },
 
-    "Temple": {
-        id: "temple",
+    temple: { id: "temple",
         name: "Đền thờ",
         type: "Structure",
     },
 
-    "Warehouse": {
-        id: "warehouse",
+    warehouse: { id: "warehouse",
         name: "Kho bãi",
         type: "Structure",
         sellValue: 5,
@@ -124,8 +111,7 @@ export const CARDS: Record<string, CardDef> = {
 
     //VILLAGERS
 
-    "Archer": {
-        id: "archer",
+    archer: { id: "archer",
         name: "Cung thủ",
         type: "Villager",
         stats: {
@@ -135,8 +121,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Baby": {
-        id: "baby",
+    baby: { id: "baby",
         name: "Trẻ em",
         type: "Villager",
         stats: {
@@ -144,8 +129,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Builder": {
-        id: "builder",
+    builder: { id: "builder",
         name: "Thợ xây",
         type: "Villager",
         stats: {
@@ -154,8 +138,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Cat": {
-        id: "cat",
+    cat: { id: "cat",
         name: "Mèo",
         type: "Villager",
         stats: {
@@ -165,8 +148,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Dog": {
-        id: "dog",
+    dog: { id: "dog",
         name: "Chó",
         type: "Villager",
         stats: {
@@ -176,8 +158,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Explorer": {
-        id: "explorer",
+    explorer: { id: "explorer",
         name: "Nhà thám hiểm",
         type: "Villager",
         stats: {
@@ -187,8 +168,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Fisher": {
-        id: "fisher",
+    fisher: { id: "fisher",
         name: "Ngư dân",
         type: "Villager",
         stats: {
@@ -198,8 +178,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Friendly_Pirate": {
-        id: "friendly_pirate",
+    friendly_pirate: { id: "friendly_pirate",
         name: "Cướp biển thân thiện",
         type: "Villager",
         stats: {
@@ -209,8 +188,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Militia": {
-        id: "militia",
+    militia: { id: "militia",
         name: "Dân binh",
         type: "Villager",
         stats: {
@@ -220,8 +198,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Miner": {
-        id: "miner",
+    miner: { id: "miner",
         name: "Thợ mỏ",
         type: "Villager",
         stats: {
@@ -231,8 +208,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Swordsman": {
-        id: "swordsman",
+    swordsman: { id: "swordsman",
         name: "Kiếm sĩ",
         type: "Villager",
         stats: {
@@ -242,8 +218,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Trained_Monkey": {
-        id: "trained_monkey",
+    trained_monkey: { id: "trained_monkey",
         name: "Khỉ huấn luyện",
         type: "Villager",
         stats: {
@@ -253,8 +228,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Villager": {
-        id: "villager",
+    villager: { id: "villager",
         name: "Dân làng",
         type: "Villager",
         stats: {
@@ -264,8 +238,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Wizard": {
-        id: "wizard",
+    wizard: { id: "wizard",
         name: "Phù thủy",
         type: "Villager",
         stats: {
@@ -275,8 +248,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Young_Villager": {
-        id: "young_villager",
+    young_villager: { id: "young_villager",
         name: "Dân làng trẻ",
         type: "Villager",
         stats: {
@@ -296,104 +268,89 @@ export const CARDS: Record<string, CardDef> = {
 
     // RESOURCES
 
-    "Brick": {
-        id: "brick",
+    brick: { id: "brick",
         name: "Gạch",
         type: "Resource",
         sellValue: 3,
     },
 
-    "Charcoal": {
-        id: "charcoal",
+    charcoal: { id: "charcoal",
         name: "Than củi",
         type: "Resource",
         sellValue: 1,
     },
 
-    "Coin": {
-        id: "coin",
+    coin: { id: "coin",
         name: "Tiền vàng",
         type: "Resource",
     },
 
-    "Cotton": {
-        id: "cotton",
+    cotton: { id: "cotton",
         name: "Bông",
         type: "Resource",
         sellValue: 1,
     },
 
-    "Flint": {
-        id: "flint",
+    flint: { id: "flint",
         name: "Đá lửa",
         type: "Resource",
         sellValue: 2,
     },
 
-    "Gold_Bar": {
-        id: "gold_bar",
+    gold_bar: { id: "gold_bar",
         name: "Thỏi vàng",
         type: "Resource",
         sellValue: 5,
     },
 
-    "Iron_Bar": {
-        id: "iron_bar",
+    iron_bar: { id: "iron_bar",
         name: "Thỏi sắt",
         type: "Resource",
         sellValue: 5,
     },
 
-    "Iron_Ore": {
-        id: "iron_ore",
+    iron_ore: { id: "iron_ore",
         name: "Quặng sắt",
         type: "Resource",
         sellValue: 3,
     },
 
-    "Plank": {
-        id: "plank",
+    plank: { id: "plank",
         name: "Ván gỗ",
         type: "Resource",
         sellValue: 3,
     },
 
-    "Rope": {
-        id: "rope",
+    rope: { id: "rope",
         name: "Dây thừng",
         type: "Resource",
         sellValue: 3,
     },
 
-    "Shell": {
-        id: "shell",
+    shell: { id: "shell",
         name: "Vỏ sò",
         type: "Resource",
     },
 
-    "Stick": {
-        id: "stick",
+    stick: { id: "stick",
         name: "Que củi",
         type: "Resource",
         sellValue: 2,
     },
 
-    "Stone": {
-        id: "stone",
+    stone: { id: "stone",
         name: "Đá",
         type: "Resource",
         sellValue: 1,
     },
 
-    "Wood": {
-        id: "wood",
+    wood: { id: "wood",
         name: "Gỗ",
         type: "Resource",
         sellValue: 1,
     },
 
-    "Wool": {
-        id: "wool",
+    wool: { id: "wool",
         name: "Len",
         type: "Resource",
         sellValue: 1,
@@ -568,8 +525,7 @@ export const CARDS: Record<string, CardDef> = {
 
 
     // FOOD
-    "Apple": {
-        id: "apple",
+    apple: { id: "apple",
         name: "Táo",
         type: "Food",
         sellValue: 1,
@@ -578,8 +534,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Banana": {
-        id: "banana",
+    banana: { id: "banana",
         name: "Chuối",
         type: "Food",
         sellValue: 1,
@@ -588,8 +543,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Berry": {
-        id: "berry",
+    berry: { id: "berry",
         name: "Quả mọng",
         type: "Food",
         sellValue: 1,
@@ -598,8 +552,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Bread": {
-        id: "bread",
+    bread: { id: "bread",
         name: "Bánh mì",
         type: "Food",
         sellValue: 3,
@@ -608,8 +561,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Carrot": {
-        id: "carrot",
+    carrot: { id: "carrot",
         name: "Cà rốt",
         type: "Food",
         sellValue: 1,
@@ -618,8 +570,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Cheese": {
-        id: "cheese",
+    cheese: { id: "cheese",
         name: "Phô mai",
         type: "Food",
         sellValue: 2,
@@ -638,8 +589,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Egg": {
-        id: "egg",
+    egg: { id: "egg",
         name: "Trứng",
         type: "Food",
         sellValue: 1,
@@ -648,8 +598,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Frittata": {
-        id: "frittata",
+    frittata: { id: "frittata",
         name: "Trứng đúc thịt",
         type: "Food",
         sellValue: 3,
@@ -668,8 +617,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Milk": {
-        id: "milk",
+    milk: { id: "milk",
         name: "Sữa",
         type: "Food",
         sellValue: 1,
@@ -678,8 +626,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Mushroom": {
-        id: "mushroom",
+    mushroom: { id: "mushroom",
         name: "Nấm",
         type: "Food",
         sellValue: 1,
@@ -688,8 +635,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Omelette": {
-        id: "omelette",
+    omelette: { id: "omelette",
         name: "Trứng cuộn",
         type: "Food",
         sellValue: 2,
@@ -698,8 +644,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Potato": {
-        id: "potato",
+    potato: { id: "potato",
         name: "Khoai tây",
         type: "Food",
         sellValue: 1,
@@ -720,8 +665,7 @@ export const CARDS: Record<string, CardDef> = {
 
 
     // MOBS
-    "Bear": {
-        id: "bear",
+    bear: { id: "bear",
         name: "Gấu",
         type: "Mob",
         stats: {
@@ -733,8 +677,7 @@ export const CARDS: Record<string, CardDef> = {
     },
 
 
-    "Ghost": {
-        id: "ghost",
+    ghost: { id: "ghost",
         name: "Ma",
         type: "Mob",
         stats: {
@@ -744,8 +687,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Goblin": {
-        id: "goblin",
+    goblin: { id: "goblin",
         name: "Goblin",
         type: "Mob",
         stats: {
@@ -755,8 +697,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Monkey": {
-        id: "monkey",
+    monkey: { id: "monkey",
         name: "Khỉ",
         type: "Mob",
         stats: {
@@ -766,8 +707,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Rat": {
-        id: "rat",
+    rat: { id: "rat",
         name: "Chuột",
         type: "Mob",
         stats: {
@@ -777,8 +717,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Skeleton": {
-        id: "skeleton",
+    skeleton: { id: "skeleton",
         name: "Bộ Xương",
         type: "Mob",
         stats: {
@@ -788,8 +727,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Slime": {
-        id: "slime",
+    slime: { id: "slime",
         name: "Slime",
         type: "Mob",
         stats: {
@@ -799,8 +737,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Tiger": {
-        id: "tiger",
+    tiger: { id: "tiger",
         name: "Hổ",
         type: "Mob",
         stats: {
@@ -810,8 +747,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Wolf": {
-        id: "wolf",
+    wolf: { id: "wolf",
         name: "Sói",
         type: "Mob",
         stats: {
@@ -822,8 +758,7 @@ export const CARDS: Record<string, CardDef> = {
     },
 
     //Locations
-    "Beach": {
-        id: "beach",
+    beach: { id: "beach",
         name: "Bãi Biển",
         type: "Location",
         stats: {
@@ -832,8 +767,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Cave": {
-        id: "cave",
+    cave: { id: "cave",
         name: "Hang Động",
         type: "Location",
         stats: {
@@ -842,8 +776,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Desert": {
-        id: "desert",
+    desert: { id: "desert",
         name: "Sa Mạc",
         type: "Location",
         stats: {
@@ -852,8 +785,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Forest": {
-        id: "forest",
+    forest: { id: "forest",
         name: "Rừng",
         type: "Location",
         stats: {
@@ -862,8 +794,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Jungle": {
-        id: "jungle",
+    jungle: { id: "jungle",
         name: "Rừng Nhiệt Đới",
         type: "Location",
         stats: {
@@ -872,8 +803,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Lake": {
-        id: "lake",
+    lake: { id: "lake",
         name: "Hồ",
         type: "Location",
         stats: {
@@ -882,8 +812,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Mountain": {
-        id: "mountain",
+    mountain: { id: "mountain",
         name: "Núi",
         type: "Location",
         stats: {
@@ -892,8 +821,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Plains": {
-        id: "plains",
+    plains: { id: "plains",
         name: "Đồng Bằng",
         type: "Location",
         stats: {
@@ -902,8 +830,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Ruins": {
-        id: "ruins",
+    ruins: { id: "ruins",
         name: "Tàn Tích",
         type: "Location",
         stats: {
@@ -912,8 +839,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Swamp": {
-        id: "swamp",
+    swamp: { id: "swamp",
         name: "Đầm Lầy",
         type: "Location",
         stats: {
@@ -925,8 +851,7 @@ export const CARDS: Record<string, CardDef> = {
 
     //FISH
 
-    "Goldfish": {
-        id: "goldfish",
+    goldfish: { id: "goldfish",
         name: "Cá Vàng",
         type: "Fish",
         stats: {
@@ -936,8 +861,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Salmon": {
-        id: "salmon",
+    salmon: { id: "salmon",
         name: "Cá Hồi",
         type: "Fish",
         stats: {
@@ -947,8 +871,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Tuna": {
-        id: "tuna",
+    tuna: { id: "tuna",
         name: "Cá Ngừ",
         type: "Fish",
         stats: {
@@ -979,8 +902,7 @@ export const CARDS: Record<string, CardDef> = {
     },
 
     //EQUIPMENT
-    "Axe": {
-        id: "axe",
+    axe: { id: "axe",
         name: "Rìu",
         type: "Equipment",
         stats: {
@@ -988,8 +910,7 @@ export const CARDS: Record<string, CardDef> = {
             damage: 5,
         },
     },
-    "Armor": {
-        id: "armor",
+    armor: { id: "armor",
         name: "Giáp Sắt",
         type: "Equipment",
         sellValue: 10,
@@ -999,8 +920,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Boots": {
-        id: "boots",
+    boots: { id: "boots",
         name: "Giày Da",
         type: "Equipment",
         sellValue: 5,
@@ -1009,8 +929,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Bow": {
-        id: "bow",
+    bow: { id: "bow",
         name: "Cung Gỗ",
         type: "Equipment",
         sellValue: 9,
@@ -1020,8 +939,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Dagger": {
-        id: "dagger",
+    dagger: { id: "dagger",
         name: "Dao Găm",
         type: "Equipment",
         sellValue: 7,
@@ -1031,8 +949,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Helmet": {
-        id: "helmet",
+    helmet: { id: "helmet",
         name: "Mũ Sắt",
         type: "Equipment",
         sellValue: 8,
@@ -1041,8 +958,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Ring": {
-        id: "ring",
+    ring: { id: "ring",
         name: "Nhẫn Ma Thuật",
         type: "Equipment",
         sellValue: 15,
@@ -1051,8 +967,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Shield": {
-        id: "shield",
+    shield: { id: "shield",
         name: "Khiên Gỗ",
         type: "Equipment",
         sellValue: 10,
@@ -1061,8 +976,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Spear": {
-        id: "spear",
+    spear: { id: "spear",
         name: "Giáo",
         type: "Equipment",
         sellValue: 9,
@@ -1072,8 +986,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Sword": {
-        id: "sword",
+    sword: { id: "sword",
         name: "Kiếm",
         type: "Equipment",
         sellValue: 11,
@@ -1083,8 +996,7 @@ export const CARDS: Record<string, CardDef> = {
         },
     },
 
-    "Wand": {
-        id: "wand",
+    wand: { id: "wand",
         name: "Gậy Phép",
         type: "Equipment",
         sellValue: 15,
