@@ -1,5 +1,7 @@
 import { UUID } from "crypto";
 
+export const CARD_WIDTH = 96;
+export const CARD_HEIGHT = 128;
 export type CardType =
     "Structure"
     | "Villager"
@@ -86,7 +88,8 @@ export interface CardStack {
     stackId: string;
     cards: CardInstance[];
     // rootCardId?: string;
-
+    position: {x: number, y: number};
+    crafting: boolean;
     activeRecipe?: string;
     progress?: number;
     // lastTick: number;
