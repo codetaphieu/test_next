@@ -1,219 +1,174 @@
-// "use client";
-
-// import { useSession } from "next-auth/react";
-// import { useRouter } from "next/navigation";
-// import { useEffect, useState, useRef } from "react";
-// import Card from "../../components/game/Card"; 
-
-// const initialCards = [
-//   { id: "card-nong-dan-1", name: "Nông dân", type: "villager", position: { x: 100, y: 150 }, progress: 0 },
-//   { id: "card-bui-chuoi-1", name: "Bụi chuối", type: "resource", position: { x: 300, y: 150 }, progress: 0 }
-// ];
-
-// const isOverlapping = (pos1: {x: number, y: number}, pos2: {x: number, y: number}) => {
-//   const distance = Math.sqrt(Math.pow(pos1.x - pos2.x, 2) + Math.pow(pos1.y - pos2.y, 2));
-//   return distance < 70; 
-// };
-
-// export default function GamePage() {
-//   const { data: session, status } = useSession();
-//   const router = useRouter();
-//   const [cards, setCards] = useState(initialCards);
-
-//   // --- THÊM STATE QUẢN LÝ VÀNG TẠI ĐÂY ---
-//   // Khởi tạo người chơi mới vào làng sẽ có 10 Vàng làm vốn
-//   const [gold, setGold] = useState(10); 
-//   // ---------------------------------------
-
-//   const boardRef = useRef<HTMLDivElement>(null);
-//   const [draggingCardId, setDraggingCardId] = useState<string | null>(null);
-//   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-
-//   useEffect(() => {
-//     if (status === "unauthenticated") router.push("/login");
-//   }, [status, router]);
-
-//   const handlePointerDown = (e: React.PointerEvent, cardId: string, currentPos: {x: number, y: number}) => {
-//     e.preventDefault(); 
-//     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-//     if (!boardRef.current) return;
-//     const boardRect = boardRef.current.getBoundingClientRect();
-//     setDragOffset({ x: e.clientX - (boardRect.left + currentPos.x), y: e.clientY - (boardRect.top + currentPos.y) });
-//     setDraggingCardId(cardId);
-
-//     // Khi cầm thẻ bài lên thì xóa tiến trình của nó
-//     setCards(prev => prev.map(c => c.id === cardId ? { ...c, progress: 0 } : c));
-//   };
-
-//   const handlePointerMove = (e: React.PointerEvent) => {
-//     if (!draggingCardId || !boardRef.current) return;
-//     const boardRect = boardRef.current.getBoundingClientRect();
-//     const newX = e.clientX - boardRect.left - dragOffset.x;
-//     const newY = e.clientY - boardRect.top - dragOffset.y;
-
-//     setCards(prevCards => prevCards.map(card => card.id === draggingCardId ? { ...card, position: { x: newX, y: newY } } : card));
-//   };
-
-//   const handlePointerUp = (e: React.PointerEvent) => {
-//     if (draggingCardId) {
-//       (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-//       const droppedCard = cards.find(c => c.id === draggingCardId);
-
-//       if (droppedCard) {
-//         const targetCard = cards.find(c => c.id !== droppedCard.id && isOverlapping(droppedCard.position, c.position));
-
-//         if (targetCard && ((droppedCard.name === "Nông dân" && targetCard.name === "Bụi chuối") || (targetCard.name === "Nông dân" && droppedCard.name === "Bụi chuối"))) {
-//           const buiChuoiId = droppedCard.name === "Bụi chuối" ? droppedCard.id : targetCard.id;
-//           const nongDanId = droppedCard.name === "Nông dân" ? droppedCard.id : targetCard.id;
-
-//           // CHẠY THANH TIẾN TRÌNH 5 GIÂY
-//           let currentProgress = 0;
-//           const interval = setInterval(() => {
-//             currentProgress += 2; // Tăng 2% mỗi 100ms -> 5000ms là 100%
-
-//             setCards(prev => prev.map(c => {
-//               if (c.id === nongDanId || c.id === buiChuoiId) return { ...c, progress: currentProgress };
-//               return c;
-//             }));
-
-//             if (currentProgress >= 100) {
-//               clearInterval(interval);
-//               setCards(prev => {
-//                 const nd = prev.find(c => c.id === nongDanId);
-//                 const bc = prev.find(c => c.id === buiChuoiId);
-//                 if (nd && bc && isOverlapping(nd.position, bc.position)) {
-//                   const newBanana = { id: `banana-${Date.now()}`, name: "Buồng chuối", type: "food", position: { x: nd.position.x + 120, y: nd.position.y }, progress: 0 };
-//                   return [...prev.filter(c => c.id !== buiChuoiId).map(c => c.id === nongDanId ? { ...c, progress: 0 } : c), newBanana];
-//                 }
-//                 return prev.map(c => ({ ...c, progress: 0 }));
-//               });
-//             }
-//           }, 100);
-//         }
-//       }
-//       setDraggingCardId(null);
-//     }
-//   };
-
-//   if (status === "loading") return <div className="p-10 text-center font-bold">Đang tải Làng...</div>;
-
-//   return (
-//     <main className="min-h-screen bg-[#f4f1ea] p-6 flex flex-col select-none touch-none">
-//       <header className="flex justify-between items-center mb-6 bg-white/80 p-5 rounded-2xl shadow-sm border border-stone-200">
-//         <div className="flex flex-col">
-//           <h1 className="text-2xl font-black text-amber-900 uppercase tracking-tighter">Bàn cờ Làng Việt</h1>
-//           {/* HIỂN THỊ USERNAME TỪ SESSION */}
-//           <p className="text-stone-500 text-sm font-medium">
-//             Trưởng làng: <span className="text-emerald-600 font-bold">{session?.user?.name || "Người chơi ẩn danh"}</span>
-//           </p>
-//         </div>
-//         <div className="flex gap-3 items-center">
-//            {/* --- THÊM Ô HIỂN THỊ VÀNG TẠI ĐÂY --- */}
-//            <div className="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg text-sm font-bold shadow-sm flex items-center gap-1 border border-yellow-200">
-//              <span className="text-lg leading-none">🪙</span> {gold}
-//            </div>
-//            {/* ----------------------------------- */}
-
-//            <div className="px-4 py-2 bg-amber-100 text-amber-800 rounded-lg text-sm font-bold shadow-sm">Ngày 1</div>
-//         </div>
-//       </header>
-
-//       <div ref={boardRef} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp} onPointerCancel={handlePointerUp}
-//            className="flex-1 w-full relative border-2 border-dashed border-stone-300 rounded-[2rem] bg-stone-200/40 p-8 overflow-hidden shadow-inner">
-//         <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none">
-//           {cards.map((card) => (
-//             <div key={card.id} className="pointer-events-auto absolute top-0 left-0"
-//                  style={{ zIndex: draggingCardId === card.id ? 100 : 10, cursor: draggingCardId === card.id ? "grabbing" : "grab" }}
-//                  onPointerDown={(e) => handlePointerDown(e, card.id, card.position)}>
-//               <Card card={card as any} onDragStart={() => {}} />
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </main>
-//   );
-// }
-
 'use client'
-import Card from '@/components/game/Card';
-import { random } from 'lodash';
-import React from 'react';
-import { randomUUID } from 'crypto';
 import Board from '@/components/game/Board';
 import { gameStore } from '@/hooks/game/gameStore';
+import { CARDS } from '@/lib/game/data/cards';
+import { PACKS } from '@/lib/game/data/packs';
+import { emitBuyPack, emitSellCard } from '@/services/gameEmitters';
+
+const QUESTS = [
+  'Top of the Berry Bush',
+  'Mine a Rock using a Villager',
+  'Sell a Card',
+  'Buy the Humble Beginnings Pack',
+  'Harvest a Tree using a Villager',
+  'Make a Stick from Wood',
+  'Pause using the play icon',
+  'Grow a Berry Bush using Soil',
+  'Get a Second Villager',
+]
 
 export default function GameBoard() {
   const cards = gameStore(s => s.cards)
-  const startDrag = gameStore(s => s.startDrag)
-  const dropCard = gameStore(s => s.dropCard)
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
+  const stacks = gameStore(s => s.stacks)
+  const coins = gameStore(s => s.coins)
+  const moon = gameStore(s => s.moon)
+  const cardLimit = gameStore(s => s.cardLimit)
+  const selectedCardId = gameStore(s => s.selectedCardId)
+  const selectedStackId = gameStore(s => s.selectedStackId)
+  const cardCount = Object.keys(cards).length + Object.values(stacks).reduce((total, stack) => total + stack.cards.length, 0)
+  const selectedCard = selectedCardId ? cards[selectedCardId] : null
+  const selectedCardDef = selectedCard ? CARDS[selectedCard.defId] : null
+  const selectedStack = selectedStackId ? stacks[selectedStackId] : null
+  const selectedStackSummary = Object.values(
+    selectedStack?.cards.reduce<Record<string, { label: string; count: number }>>((summary, card) => {
+      const label = CARDS[card.defId]?.name ?? card.defId
+      summary[card.defId] = {
+        label,
+        count: (summary[card.defId]?.count ?? 0) + 1,
+      }
+      return summary
+    }, {}) ?? {},
+  )
+  const selectedSellValue = selectedCard?.defId === 'coin' ? 1 : selectedCardDef?.sellValue
+  const canSellSelectedCard = selectedCard && selectedSellValue !== undefined && selectedSellValue > 0
 
-    const rect = e.currentTarget.getBoundingClientRect()
-
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-
-    dropCard(x, y)
-  }
   return (
-    <div className="w-screen h-screen flex bg-slate-900 text-slate-100 overflow-hidden font-sans select-none">
-
-      {/* =========================================
-          LEFT SIDEBAR: Quest + Idea + Description 
-          ========================================= */}
-      <div className="w-80 border-r border-slate-700 bg-slate-800 flex flex-col">
-        {/* Quest Box */}
-        <div className="flex-1 border-b border-slate-700 p-4">
-          <h2 className="text-lg font-bold text-slate-400 mb-2 uppercase tracking-wider">Quests</h2>
-          {/* Tạm để trống */}
-        </div>
-
-        {/* Idea Box */}
-        <div className="flex-1 border-b border-slate-700 p-4">
-          <h2 className="text-lg font-bold text-slate-400 mb-2 uppercase tracking-wider">Ideas</h2>
-          {/* Tạm để trống */}
-        </div>
-
-        {/* Description Box */}
-        <div className="flex-1 p-4">
-          <h2 className="text-lg font-bold text-slate-400 mb-2 uppercase tracking-wider">Description</h2>
-          {/* Tạm để trống */}
-        </div>
-      </div>
-
-      {/* =========================================
-          RIGHT AREA: Top Bar + Main Game Board 
-          ========================================= */}
-      <div className="flex-1 flex flex-col">
-
-        {/* TOP BAR: Chỉ số sinh tồn */}
-        <div className="h-14 border-b border-slate-700 bg-slate-800 flex items-center justify-between px-6 shadow-sm z-10">
-
-          <div className="flex gap-8">
-            {/* Số thẻ */}
-            <div className="font-semibold text-lg flex items-center gap-2">
-              <span className="text-slate-400">Thẻ:</span>
-              <span>0 / 10</span> {/* Sẽ thay bằng biến từ Store sau */}
+    <div className="h-screen w-screen overflow-hidden bg-[#bed0b8] font-sans text-black select-none">
+      <div className="flex h-full">
+        <aside className="z-20 flex w-[300px] shrink-0 flex-col border-[3px] border-black bg-[#fbf7df] shadow-[5px_0_0_rgba(0,0,0,0.18)]">
+          <div className="flex h-12 border-b-[3px] border-black bg-[#f7f0c9]">
+            <div className="flex flex-1 items-center gap-2 border-r-[3px] border-black px-4 text-[22px] font-black uppercase leading-none">
+              Quests <span className="rounded-full bg-[#f06f61] px-2 text-base">!</span>
             </div>
-
-            {/* Vàng */}
-            <div className="font-semibold text-lg flex items-center gap-2 text-yellow-400">
-              <span className="text-slate-400">Vàng:</span>
-              <span>0 🪙</span>
+            <div className="flex flex-1 items-center gap-2 px-4 text-[22px] font-black uppercase leading-none">
+              Ideas <span className="rounded-full bg-[#f06f61] px-2 text-base">!</span>
             </div>
           </div>
 
-          {/* Mặt trăng (Moon) */}
-          <div className="font-bold text-xl text-indigo-300 flex items-center gap-2">
-            <span>Moon 1 🌙</span>
+          <div className="min-h-0 flex-1 overflow-hidden border-b-[3px] border-black p-4">
+            <div className="space-y-4 pr-2 text-[20px] font-black leading-tight">
+              {QUESTS.map((quest, index) => (
+                <div key={quest} className="flex gap-3">
+                  <span className="mt-1 h-4 w-4 shrink-0 border-2 border-[#ded8bd] bg-[#fffdf0]" />
+                  <span>{quest}</span>
+                  {(index === 2 || index === 7) && (
+                    <span className="ml-auto rounded-full bg-[#f06f61] px-2 text-base leading-6">!</span>
+                  )}
+                </div>
+              ))}
+            </div>
+            <p className="mt-5 text-[21px] font-black leading-tight">
+              Complete 3 more quests to unlock a new Pack!
+            </p>
           </div>
-        </div>
 
-        {/* GAME BOARD: Không gian chơi chính */}
-        <Board/>
+          <div className="relative h-[250px] border-t-[3px] border-black bg-[#fffbea] p-4">
+            <h2 className="mb-4 text-[24px] font-black uppercase leading-none">
+              {selectedStack ? 'Stack of Cards' : 'Description'}
+            </h2>
+            {selectedCard && selectedCardDef ? (
+              <div className="space-y-3 text-[18px] font-black leading-tight">
+                <div>
+                  <div>{selectedCardDef.name}</div>
+                  <div className="text-sm font-bold text-black/60">{selectedCardDef.type}</div>
+                </div>
+                {selectedCardDef.stats?.description && (
+                  <p className="text-sm font-bold leading-snug">{selectedCardDef.stats.description}</p>
+                )}
+                {canSellSelectedCard && (
+                  <button
+                    type="button"
+                    onClick={() => emitSellCard(selectedCard.instanceId)}
+                    className="border-[3px] border-black bg-black px-4 py-2 text-base font-black uppercase text-white shadow-[3px_3px_0_rgba(0,0,0,0.25)]"
+                  >
+                    Sell for {selectedSellValue} coin
+                  </button>
+                )}
+              </div>
+            ) : selectedStack ? (
+              <div className="space-y-2 text-[18px] font-black leading-tight">
+                {selectedStackSummary.map(item => (
+                  <div key={item.label}>
+                    {item.count > 1 ? `${item.count}x ` : ''}{item.label}
+                  </div>
+                ))}
+                {selectedStack.crafting.active && (
+                  <div className="mt-3 border-2 border-black bg-[#d7eed1] px-2 py-1 text-sm">
+                    Crafting: {selectedStack.crafting.recipeId}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p className="text-[18px] font-black leading-tight">Select a card or stack.</p>
+            )}
+            <div className="absolute bottom-4 left-5 text-[18px] font-black">{coins} ⊙</div>
+          </div>
+        </aside>
+
+        <section className="flex min-w-0 flex-1 flex-col">
+          <header className="relative z-10 flex h-[120px] shrink-0 items-center border-b-[3px] border-black bg-[#afc3aa] px-8">
+            <div className="flex h-full flex-1 items-center justify-center gap-6">
+              <button
+                type="button"
+                disabled={!canSellSelectedCard}
+                onClick={() => selectedCard && emitSellCard(selectedCard.instanceId)}
+                className="h-[88px] w-[76px] border-[3px] border-white bg-black text-center text-xs font-black text-white shadow-[0_0_0_3px_rgba(255,255,255,0.45)] disabled:opacity-50"
+              >
+                <span className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-white text-2xl text-black">⊂</span>
+                Sell
+              </button>
+              <div className="flex h-[88px] w-[76px] items-center justify-center border-[3px] border-dashed border-white bg-black text-center text-xs font-black text-white">
+                Make Zone
+              </div>
+
+              {Object.values(PACKS).map(pack => (
+                <button
+                  key={pack.id}
+                  type="button"
+                  disabled={coins < pack.cost || cardCount + pack.numberOfItems > cardLimit}
+                  onClick={() => emitBuyPack(pack.id, { x: 240, y: 150 })}
+                  className="relative h-[88px] w-[76px] rounded-[5px] border-[3px] border-black bg-black px-2 text-center text-[11px] font-black leading-tight text-white shadow-[4px_4px_0_rgba(0,0,0,0.22)] disabled:opacity-45"
+                >
+                  <span className="block">{pack.name}</span>
+                  <span className="mt-3 block text-base">{pack.cost}⊙</span>
+                </button>
+              ))}
+
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="flex h-[88px] w-[76px] items-center justify-center rounded-[5px] border-[3px] border-black bg-black text-sm font-black text-white shadow-[4px_4px_0_rgba(0,0,0,0.22)]"
+                >
+                  ???
+                </div>
+              ))}
+            </div>
+
+            <div className="absolute right-3 top-2 flex h-11 border-[3px] border-black bg-[#f7f0c9] text-[22px] font-black leading-none">
+              <div className="flex items-center gap-5 border-r-[3px] border-black px-4">
+                <span>{coins} ⊙</span>
+                <span>{cardCount}/{cardLimit} ▣</span>
+              </div>
+              <div className="flex items-center px-5">Moon {moon}</div>
+              <div className="flex items-center border-l-[3px] border-black px-4 text-2xl">Ⅱ</div>
+            </div>
+          </header>
+
+          <main className="min-h-0 flex-1">
+            <Board />
+          </main>
+        </section>
       </div>
-
     </div>
   );
 }

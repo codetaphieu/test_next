@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 // Sử dụng đường dẫn khớp với cấu trúc thư mục hiện tại của bạn
-import { NextAuthProvider } from "../components/providers/NextAuthProvider";
+
 import Navbar from "../components/navbar/Navbar";
+import { NextAuthProvider } from "@/components/providers/NextAuthProvider";
+import SessionErrorGuard from "@/components/features/auth/SessionErrorGuard";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +34,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextAuthProvider>
+          <SessionErrorGuard />
           {/* Navbar sẽ xuất hiện ở mọi trang */}
+          
           <Navbar />
           <main>
             {children}

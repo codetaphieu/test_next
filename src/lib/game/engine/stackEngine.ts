@@ -9,7 +9,7 @@ export function createStack(
     stackId: crypto.randomUUID(),
     cards: [cardA, cardB],
     position: { x: cardB.position.x, y: cardB.position.y },
-    crafting: false,
+    crafting: { active: false },
     progress: 0,
   }
 }
@@ -34,7 +34,7 @@ export function checkAndStartRecipe(stack: CardStack): {
   if (!result) return { stack, recipeFound: false, duration: 0 }
 
   return {
-    stack: { ...stack, crafting: true, progress: 0 },
+    stack: { ...stack, crafting: { active: true }, progress: 0 },
     recipeFound: true,
     duration: result.duration,
   }

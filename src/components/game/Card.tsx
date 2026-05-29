@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import type { PointerEvent } from 'react'
 import { CardInstance } from '@/types/game/index'
 import { CARDS } from '@/lib/game/data/cards'
 import { gameStore } from '@/hooks/game/gameStore'
@@ -8,64 +8,73 @@ interface CardComponent {
   card: CardInstance
 }
 
-const getCardColor = (type: string) => {
+export const getCardColor = (type: string) => {
   switch (type) {
-    case 'Structure': return 'bg-orange-100 border-orange-800'
-    case 'Villager': return 'bg-yellow-100 border-yellow-600'
-    case 'Resource': return 'bg-green-100 border-green-700'
-    case 'Idea': return 'bg-purple-100 border-purple-600'
-    case 'Food': return 'bg-red-100 border-red-500'
-    case 'Mob': return 'bg-rose-200 border-rose-700'
-    case 'Location': return 'bg-teal-100 border-teal-600'
-    case 'Fish': return 'bg-cyan-100 border-cyan-600'
-    case 'Rumor': return 'bg-indigo-100 border-indigo-500'
-    case 'Equipment': return 'bg-slate-200 border-slate-600'
-    case 'Spirit and Curse': return 'bg-violet-200 border-violet-800'
-    default: return 'bg-gray-100 border-gray-400'
+    case 'Structure': return 'bg-[#d4b293]'
+    case 'Villager': return 'bg-[#fffbe8]'
+    case 'Resource': return 'bg-[#72777b] text-white'
+    case 'Idea': return 'bg-[#66708e] text-white'
+    case 'Food': return 'bg-[#d4a98f]'
+    case 'Mob': return 'bg-[#b9787b]'
+    case 'Location': return 'bg-[#8fb5a8]'
+    case 'Fish': return 'bg-[#93b9c8]'
+    case 'Rumor': return 'bg-[#8582ac] text-white'
+    case 'Equipment': return 'bg-[#9a9fa5] text-white'
+    case 'Spirit and Curse': return 'bg-[#8b789e] text-white'
+    default: return 'bg-[#eee6ce]'
   }
 }
 
 export const getIcon = (name: string) => {
   if (name.includes('Nông dân')) return '👨‍🌾'
+  if (name.includes('Dân') || name.includes('Thợ')) return '♙'
+  if (name.includes('Cây')) return '♧'
   if (name.includes('Bụi chuối')) return '🌿'
   if (name.includes('Buồng chuối')) return '🍌'
+  if (name.includes('Tiền')) return '⊂'
+  if (name.includes('Gỗ')) return '▧'
+  if (name.includes('Đá')) return '◇'
   return '🃏'
 }
 
 export default function Card({ card }: CardComponent) {
-  const startDrag = gameStore(s => s.startDrag)
+  const startCardDrag = gameStore(s => s.startCardDrag)
+  const dragging = gameStore(s => s.dragging)
+  const selectedCardId = gameStore(s => s.selectedCardId)
   const def = CARDS[card.defId]
 
-  const handleDragStart = (e: React.DragEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect()
+  const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return
 
-    // Khoảng cách từ góc trên trái card → vị trí chuột
+    const rect = e.currentTarget.getBoundingClientRect()
     const offsetX = e.clientX - rect.left
     const offsetY = e.clientY - rect.top
 
-    // Lưu vào dataTransfer để Board đọc được
-    e.dataTransfer.setData('offsetX', offsetX.toString())
-    e.dataTransfer.setData('offsetY', offsetY.toString())
-
-    startDrag(card.instanceId)
+    e.currentTarget.setPointerCapture(e.pointerId)
+    startCardDrag(card.instanceId, { x: offsetX, y: offsetY })
   }
 
   if (!def) return null
-  console.log(def.type)
+
+  const isDragging = dragging?.type === 'card' && dragging.instanceId === card.instanceId
+  const isSelected = selectedCardId === card.instanceId
+
   return (
     <div
-      draggable
-      onDragStart={handleDragStart}
+      onPointerDown={handlePointerDown}
       className={`
-        absolute w-24 h-32 rounded-lg border-2 shadow-md
-        cursor-grab active:cursor-grabbing flex flex-col
-        items-center justify-center p-2 select-none
+        absolute w-24 h-32 rounded-[5px] border-[3px] border-black shadow-[5px_5px_0_rgba(0,0,0,0.25)]
+        cursor-grab active:cursor-grabbing flex flex-col touch-none
+        select-none overflow-hidden
         transition-transform hover:scale-105
         ${getCardColor(def.type)}
       `}
       style={{
         left: `${card.position.x}px`,
         top: `${card.position.y}px`,
+        zIndex: isDragging ? 900 : 10,
+        outline: isSelected ? '4px dashed rgba(255,255,255,0.85)' : undefined,
+        outlineOffset: isSelected ? '4px' : undefined,
       }}
     >
       {/* Progress bar */}
@@ -78,10 +87,26 @@ export default function Card({ card }: CardComponent) {
         </div>
       )}
 
-      <div className="text-2xl mb-1">{getIcon(def.name)}</div>
-      <h3 className="font-bold text-sm text-center text-gray-800 leading-tight">
-        {def.name}
-      </h3>
+      <div className="flex h-6 w-full items-center border-b-[3px] border-black bg-[#fffbea] px-1.5 text-black">
+        <h3 className="truncate text-left text-[11px] font-black leading-none">
+          {def.name}
+        </h3>
+      </div>
+
+      <div className="flex flex-1 flex-col items-center justify-center px-2">
+        <div className="mb-1 flex h-12 w-12 items-center justify-center rounded-full border-[3px] border-current bg-white/25 text-3xl">
+          {getIcon(def.name)}
+        </div>
+        <p className="text-center text-[10px] font-black leading-tight opacity-80">
+          {def.type}
+        </p>
+      </div>
+
+      {(def.sellValue || card.defId === 'coin') && (
+        <div className="absolute bottom-1 left-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-[12px] font-black text-black">
+          {card.defId === 'coin' ? 1 : def.sellValue}
+        </div>
+      )}
     </div>
   )
 }

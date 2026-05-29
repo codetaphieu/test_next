@@ -32,10 +32,6 @@ export async function refreshAccessToken(token: JWT) {
     };
   } catch (error) {
     console.error("Lỗi RefreshAccessToken:", error);
-
-    return {
-      ...token,
-      error: "RefreshAccessTokenError", 
-    };
+    throw error;
   }
 }

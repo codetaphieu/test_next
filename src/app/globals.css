@@ -1,7 +1,17 @@
 @import "tailwindcss";
 
-/* Ép màu nền trắng để phá cái màu đen "ám quẻ" */
 body {
-  background-color: white !important;
+  background-color: #bed0b8 !important;
   color: black !important;
+}
+
+.stacklands-board {
+  background-color: #c6dbc3;
+  background-image:
+    radial-gradient(circle at 18% 28%, rgba(77, 105, 79, 0.12) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 18%, rgba(77, 105, 79, 0.1) 0 1px, transparent 2px),
+    radial-gradient(circle at 58% 70%, rgba(77, 105, 79, 0.1) 0 1px, transparent 2px),
+    linear-gradient(90deg, rgba(40, 80, 45, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(40, 80, 45, 0.035) 1px, transparent 1px);
+  background-size: 180px 120px, 210px 160px, 240px 180px, 52px 52px, 52px 52px;
 }

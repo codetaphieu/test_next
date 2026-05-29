@@ -10,7 +10,7 @@ export async function refreshWithLock(token: JWT): Promise<JWT> {
 
     refreshPromise = refreshAccessToken(token)
         .then(refreshed => ({ ...token, ...refreshed, error: undefined }))
-        .catch(() => ({ ...token, error: "RefreshAccessTokenError" } as JWT))
+        .catch(async () => ({ ...token, error: "RefreshAccessTokenError"  } as JWT))
         .finally(() => {
             refreshPromise = null; 
         });

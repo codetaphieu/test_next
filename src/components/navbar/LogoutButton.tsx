@@ -1,38 +1,39 @@
 "use client";
 import { getSession, signOut } from "next-auth/react";
 import { useState } from "react";
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+
 export default function LogoutButton() {
 
     const [isLoading, setIsLoading] = useState(false);
     const handleLogout = async () => {
-        // 1. Lấy session hiện tại để lấy refreshToken
-        // (Giả sử bạn đã bọc nó vào session như các bước trước)
-        const session = await getSession();
+        if (isLoading) return;
+
         setIsLoading(true);
 
-
         try {
-            // 2. Gọi API Logout của Backend để nó hủy Token trong Database/Redis
-            await fetch(`http://localhost:3001/auth/logout`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Nếu backend cần AccessToken để xác thực ai đang logout:
-                    "Authorization": `Bearer ${session?.token.accessToken}`
-                },
-                body: JSON.stringify({
-                    refreshToken: session?.token.refreshToken, // Để backend xóa dòng này trong DB
-                }),
-            });
+            const session = await getSession();
+            console.log("session", session);
+            const refreshToken = session?.token?.refreshToken;
+            console.log("refreshtoken", refreshToken);
+            if (refreshToken) {
+                await fetch(`${BACKEND_URL}/auth/logout`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...(session?.token?.accessToken
+                            ? { Authorization: `Bearer ${session.token.accessToken}` }
+                            : {}),
+                    },
+                    body: JSON.stringify({ refreshToken }),
+                });
+            }
         } catch (error) {
-            console.error("Lỗi gọi API Logout backend nhưng vẫn sẽ logout ở frontend");
+            console.error("Backend logout failed; signing out locally.", error);
+        } finally {
+            await signOut({ callbackUrl: "/login" });
         }
-
-        // 3. Cuối cùng, xóa sạch Cookie của NextAuth ở trình duyệt
-        // redirect: true sẽ đẩy người dùng về trang login mặc định
-        console.log('đang logout');
-        signOut({ callbackUrl: "/login" });
-        setIsLoading(false);
     };
 
     return (

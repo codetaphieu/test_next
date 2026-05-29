@@ -3,12 +3,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
 // Đảm bảo đường dẫn này khớp với vị trí file RefreshLock trong thư mục lib của bạn
-import { refreshWithLock } from "@/lib/auth/RefreshLock"; 
+import { refreshWithLock } from "@/lib/auth/RefreshLock";
 
 export const authOptions: NextAuthOptions = {
     // TÔI ĐÃ THÊM DÒNG NÀY ĐỂ FIX LỖI DECRYPTION FAILED
-    secret: process.env.NEXTAUTH_SECRET, 
-    
+    secret: process.env.NEXTAUTH_SECRET,
+
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -26,9 +26,9 @@ export const authOptions: NextAuthOptions = {
                         password: credentials?.password,
                     }),
                 });
-                
+
                 const token = await res.json();
-                
+
                 if (res.ok && token) {
                     // Giải mã token để lấy thông tin User
                     const decoded = jwtDecode<JwtPayload>(token.accessToken);
@@ -61,21 +61,14 @@ export const authOptions: NextAuthOptions = {
 
             // Các lần gọi sau: Kiểm tra xem token đã hết hạn chưa
             if (Date.now() > token.expiredTime) {
-                try {
-                    const refreshed = await refreshWithLock(token);
-                    return {
-                        ...token,
-                        ...refreshed,
-                        error: undefined,
-                    };
-                } catch (error) {
-                    return {
-                        ...token,
-                        error: "Failed to refresh access token",
-                    };
-                }
+                const refreshed = await refreshWithLock(token);
+                return {
+                    ...token,
+                    ...refreshed,
+                    error: refreshed.error,
+                };
             }
-            
+
             return {
                 ...token,
                 error: undefined,
@@ -98,7 +91,7 @@ export const authOptions: NextAuthOptions = {
         }
     },
     pages: {
-        signIn: '/login', 
+        signIn: '/login',
     },
     session: {
         strategy: "jwt",

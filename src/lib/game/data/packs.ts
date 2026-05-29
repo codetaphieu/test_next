@@ -5,7 +5,7 @@ export const PACKS: Record<string, Pack> = {
         name: "Khởi Đầu Khiêm Tốn",
         description: "Bắt đầu hành trình của bạn với một khởi đầu khiêm tốn.",
         cost: 3,
-        numberOfItems: Math.floor(Math.random() * 2) + 3, 
+        numberOfItems: 3,
         items: [
             { defId: "villager", chance: 0.15 },
             { defId: "berry_bush", chance: 0.15 },
@@ -22,7 +22,7 @@ export const PACKS: Record<string, Pack> = {
         name: "Tìm Kiếm Tri Thức",
         description: "Khám phá những kiến thức mới để phát triển.",
         cost: 4,
-        numberOfItems: Math.floor(Math.random() * 2) + 3,
+        numberOfItems: 3,
         items: [
             { defId: "villager", chance: 0.4 },
             { defId: "berry_bush", chance: 0.3 },

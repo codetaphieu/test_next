@@ -1,7 +1,9 @@
-import { UUID } from "crypto";
-
 export const CARD_WIDTH = 96;
 export const CARD_HEIGHT = 128;
+export const CARD_TITLE_BAR_HEIGHT = 24;
+export const STACK_CARD_OFFSET_X = 0;
+export const STACK_CARD_OFFSET_Y = CARD_TITLE_BAR_HEIGHT;
+
 export type CardType =
     "Structure"
     | "Villager"
@@ -59,7 +61,7 @@ export interface CardDef {
 
 
 export interface CardInstance {
-    instanceId: UUID;
+    instanceId: string;
     defId: string;
 
     position: { x: number, y: number };
@@ -89,13 +91,18 @@ export interface CardStack {
     cards: CardInstance[];
     // rootCardId?: string;
     position: {x: number, y: number};
-    crafting: boolean;
+    crafting: {
+        active: boolean;
+        recipeId?: string;
+        startAt?: number;
+        duration?: number;
+    };
     activeRecipe?: string;
     progress?: number;
     // lastTick: number;
 }
 
-export interface GameState {
+export interface GameSnapshot {
     cards: Record<string, CardInstance>;  // instanceId → CardInstance
     stacks: Record<string, CardStack>;     // stackId → CardStack
     moon: number;                          // vòng hiện tại
@@ -103,13 +110,70 @@ export interface GameState {
     coins: number;
     cardLimit: number;                     // số thẻ tối đa trên bàn
     phase: "playing" | "gameover" | "gamewin"
+}
+
+export interface GameState extends GameSnapshot {
+    connectionStatus: "idle" | "connecting" | "connected" | "disconnected" | "error";
+    gameError?: { code?: string; message: string } | null;
+    dragging: DragState | null;
+    selectedCardId: string | null;
+    selectedStackId: string | null;
 
     addCard: (card: CardInstance) => void;
-    // updateCardPosition: (instanceId: UUID, x: number, y: number) => void;
-    startDrag: (instanceId: UUID) => void;
-    dropCard: (x: number, y: number) => void;
-    draggingId: UUID | null;
+    hydrateGameState: (state: GameSnapshot) => void;
+    startCardDrag: (instanceId: string, offset: Position) => void;
+    startStackDrag: (stackId: string, offset: Position) => void;
+    moveDragging: (x: number, y: number) => void;
+    finishDragging: (x: number, y: number) => void;
+    clearDragging: () => void;
+    selectCard: (instanceId: string) => void;
+    selectStack: (stackId: string) => void;
+    clearSelection: () => void;
+    applyCardPositionUpdated: (payload: { instanceId: string; x: number; y: number }) => void;
+    applyCardRemoved: (instanceId: string) => void;
+    applyCardsSpawned: (cards: CardInstance[]) => void;
+    applyEconomyUpdated: (payload: { coins: number }) => void;
+    applyStackUpdated: (stack: CardStack) => void;
+    applyStackRemoved: (stackId: string) => void;
+    applyRecipeCompleted: (payload: RecipeCompletedPayload) => void;
+    applyStackSplit: (payload: StackSplitPayload) => void;
+    tickCraftingProgress: (now?: number) => void;
+    setConnectionStatus: (status: GameState["connectionStatus"]) => void;
+    setGameError: (error: GameState["gameError"]) => void;
     setPhase: (phase: GameState["phase"]) => void;
+}
+
+export type Position = { x: number; y: number };
+
+export type DragState =
+    | { type: "card"; instanceId: string; offset: Position }
+    | { type: "stack"; stackId: string; offset: Position };
+
+export interface RecipeStartedPayload {
+    stack: CardStack;
+    stackId: string;
+    recipeId: string;
+    duration: number;
+    startAt: number;
+}
+
+export interface RecipeCompletedPayload {
+    updatedStacks: CardStack[];
+    removedStackIds: string[];
+    spawnedCards: CardInstance[];
+    deletedCardIds: string[];
+}
+
+export interface StackSplitPayload {
+    updatedStacks: CardStack[];
+    removedStackIds: string[];
+    spawnedCards: CardInstance[];
+    createdStacks: CardStack[];
+}
+
+export interface GameErrorPayload {
+    code?: string;
+    message: string;
 }
 
 export interface PackItem {
